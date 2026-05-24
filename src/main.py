@@ -10,18 +10,14 @@ OUTPUT_FILE =os.path.join(base_dir, "../output/sample-output.json")
 
 #Emails (patterns for normal emails and alu specific emails)
 email_pattern = r"[a-zA-Z0-9][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(?:com|edu|org|rw|net|co)"
-alu_si       = r"[a-zA-Z0-9._%+-]+@si\.alueducation\.com$"
-alu_alumni   = r"[a-zA-Z0-9._%+-]+@alumni\.alueducation\.com$"
+alu_si  = r"[a-zA-Z0-9._%+-]+@si\.alueducation\.com$"
+alu_alumni = r"[a-zA-Z0-9._%+-]+@alumni\.alueducation\.com$"
 alu_official = r"[a-zA-Z0-9._%+-]+@alueducation\.com$"
 
 #Credit cards
-# 3 different cards(visa, mastercard, and amex can all be captured in accordance to each one's unique details)
+# the pattern must capture any card regardless of type(mastercard, Amex, and Visa)
+card_pattern = r"\b(?:\d[ -]?){15,16}\b"
 
-visa        = r"\b4\d{3}[ -]?\d{4}[ -]?\d{4}[ -]?\d{4}\b" #must start with 4
-mastercard  = r"\b5[1-5]\d{2}[ -]?\d{4}[ -]?\d{4}[ -]?\d{4}\b" # start with numbers from 51-55
-amex        = r"\b3[47]\d{2}[ -]?\d{6}[ -]?\d{5}\b"#starts with 34,37
-
-card_pattern = f"{visa}|{mastercard}|{amex}"
 
 #hashtag
 hashtag_pattern = r"#\w+"
@@ -30,7 +26,7 @@ hashtag_pattern = r"#\w+"
 time_pattern = r"\b(?:[01]?\d|2[0-3]):[0-5]\d\s?(?:AM|PM|am|pm)?\b"
 
 # Words that might signal danger
-danger = ["<script", "javascript:", "drop table", "<img", "onerror", "alert("]
+danger = ["<script", "javascript:", "drop table", "onerror", "alert("]
 
 #Functions for security(run before doing anything with data)
 
@@ -47,29 +43,34 @@ def mask_card(card):
     return "**** **** **** " + digits[-4:]
 
 def card_validity(digits):
-    # obvious fake e.g 0000 0000 0000 0000
+
+    # if all digits are the same its a fake
     if len(set(digits)) == 1:
-        return False, f"all digits are '{digits[0]}' - fake card"
+        return False, f"fake:card is made up of one repeated digit"
 
-    # visa starts with 4, always 16 digits
-    if digits.startswith("4"):
-        if len(digits) != 16:
-            return False, f"visa should be 16 digits, got {len(digits)}"
-        return True, None
+    # figure out what type of card it is based on starting numbers
+    first_two = int(digits[:2])
 
-    # mastercard starts with 51 to 55, also 16 digits
-    if 51 <= int(digits[:2]) <= 55:
-        if len(digits) != 16:
-            return False, f"mastercard should be 16 digits, got {len(digits)}"
-        return True, None
+    if 40 <= first_two <= 49:
+        card_type = "visa"
+        expected_length = 16
 
-    # amex starts with 34 or 37, only one thats 15 digits
-    if digits[:2] in ("34", "37"):
-        if len(digits) != 15:
-            return False, f"amex should be 15 digits, got {len(digits)}"
-        return True, None
+    elif 51 <= first_two <= 55:
+        card_type = "mastercard"
+        expected_length = 16
 
-    return False, "doesnt look like visa, mastercard or amex"
+    elif first_two == 34 or first_two == 37:
+        card_type = "amex"
+        expected_length = 15
+
+    else:
+        return False, "doesnt look like visa, mastercard or amex"
+
+    # checking if the length matches what we expect for that card type
+    if len(digits) != expected_length:
+        return False, f"{card_type} should have total of {expected_length} digits, it has {len(digits)}"
+
+    return True, None
 
 def email_check(email):
     if email.count("@") > 1:
@@ -106,7 +107,7 @@ def get_emails(text):
         # danger check runs first
         if dangerous(email):
             results["invalid"].append({
-                "value": "[removed]",
+                "email": "[removed]",
                 "reason": "looks suspicious, injection attack possible"
             })
             continue
@@ -118,51 +119,62 @@ def get_emails(text):
     for bad in malformed:
         bad = bad.strip()
         results["invalid"].append({
-            "value": bad,
+            "email": bad,
             "reason": email_check(bad)
         })
 
     return results
+
 def check_cards(text):
-    found = re.findall(r"\b(?:\d[ -]?){13,16}\b", text)
     results = {"accepted": [], "invalid": []}
+    seen = []
+
+    found = re.findall(card_pattern, text)
 
     for card in found:
-        ## remove space or dashes in cards
-        digits = re.sub(r"\D", "", card) 
-        is_valid, reason = card_validity(digits)
+        digits = re.sub(r"\D", "", card)
+        masked = mask_card(card)
+        if masked in seen:
+            continue
 
+        seen.append(masked)
+
+        is_valid, reason = card_validity(digits)
         if not is_valid:
             results["invalid"].append({
-             "card": mask_card(card),
-             "reason": reason
+                "card": masked,
+                "reason": reason
             })
-            continue
-        results["accepted"].append(mask_card(card))
+        else:
+            results["accepted"].append(masked)
 
     return results
-
 
 def get_hashtags(text):
     return re.findall(hashtag_pattern, text)
 
 def extract_times(text):
-    return re.findall(time_pattern, text)
+    valid = re.findall(time_pattern, text)
+
+    #  finding number of incorrect/no-existing times like 23:99 have been rejected by pattern and other checks
+    all_times = re.findall(r"\b\d{1,2}:\d{2}\s?(?:AM|PM|am|pm)?\b", text)
+    incorrect = len(all_times) - len(valid)
+    return valid, incorrect    
 
 def main():
      with open(INPUT_FILE, "r", encoding="utf-8") as f:
         text = f.read()
 
-     emails   = get_emails(text)
-     cards    = check_cards(text)
+     emails = get_emails(text)
+     cards = check_cards(text)
      hashtags = get_hashtags(text)
-     times    = extract_times(text)
+     times, incorrect = extract_times(text)
 
      output = {
       "emails": emails,
       "credit_cards": cards,
       "hashtags": hashtags,
-      "times": times
+      "times": {"found": times, "rejected_count": incorrect}
     }
     
     # create output folder if it doesn't exist
@@ -179,14 +191,13 @@ def main():
      print("extraction done!")
      print(f"\nemails: {total_emails} accepted, {len(emails['invalid'])} invalid")
      for r in emails["invalid"]:
-         print(f"invalid: '{r['value']}' , {r['reason']}")
+         print(f"invalid: '{r['email']}' , {r['reason']}")
 
      print(f"\ncards: {len(cards['accepted'])} accepted, {len(cards['invalid'])} invalid")
      for r in cards["invalid"]:
          print(f"invalid: '{r['card']}', {r['reason']}")
-
+     print(f"\ntimes: {len(times)} found, {incorrect} rejected")
      print(f"\nhashtags: {len(hashtags)}")
-     print(f"times: {len(times)}")
      print(f"\noutput saved to: {OUTPUT_FILE}")
 
 if __name__ == "__main__":

