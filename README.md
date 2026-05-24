@@ -1,4 +1,4 @@
-# ALU Regex Data Extraction — audrey934
+# ALU Regex Data Extraction 
 
 A Python program that reads a raw and messy helpdesk export and pulls out useful data using regex. It works as a system that processes large volumes of raw text data returned from an external API. It extracts specific types of structured data from raw text,
 validates input to ensure accuracy and safety, and handles realistic variations of data formats as they appear in the real world.
