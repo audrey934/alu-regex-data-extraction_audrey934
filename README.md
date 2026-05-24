@@ -30,7 +30,7 @@ alu-regex-data-extraction-audrey934/
 
 ---
 
-## Security — this part was interesting
+## Security 
 
 The whole idea is that you can't trust what comes in. So:
 
