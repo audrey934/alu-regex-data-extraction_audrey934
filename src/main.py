@@ -15,9 +15,13 @@ alu_alumni   = r"[a-zA-Z0-9._%+-]+@alumni\.alueducation\.com$"
 alu_official = r"[a-zA-Z0-9._%+-]+@alueducation\.com$"
 
 #Credit cards
-card_pattern = r"\b\d{4}[ -]?\d{4}[ -]?\d{4}[ -]?\d{4}\b"
-#pattern allows the common 16-digit credit ceards and also helps to obtain cards having spaces, and dashes
+# 3 different cards(visa, mastercard, and amex can all be captured in accordance to each one's unique details)
 
+visa        = r"\b4\d{3}[ -]?\d{4}[ -]?\d{4}[ -]?\d{4}\b" #must start with 4
+mastercard  = r"\b5[1-5]\d{2}[ -]?\d{4}[ -]?\d{4}[ -]?\d{4}\b" # start with numbers from 51-55
+amex        = r"\b3[47]\d{2}[ -]?\d{6}[ -]?\d{5}\b"#starts with 34,37
+
+card_pattern = f"{visa}|{mastercard}|{amex}"
 
 #hashtag
 hashtag_pattern = r"#\w+"
@@ -43,13 +47,39 @@ def mask_card(card):
     return "**** **** **** " + digits[-4:]
 
 def card_validity(digits):
-    #protection against fake cards
+    # obvious fake e.g 0000 0000 0000 0000
     if len(set(digits)) == 1:
         return False, f"all digits are '{digits[0]}' - fake card"
-    if len(digits) != 16:
-        return False, f"Card number must have 16 digits, got {len(digits)}"
-    return True, None
 
+    # visa starts with 4, always 16 digits
+    if digits.startswith("4"):
+        if len(digits) != 16:
+            return False, f"visa should be 16 digits, got {len(digits)}"
+        return True, None
+
+    # mastercard starts with 51 to 55, also 16 digits
+    if 51 <= int(digits[:2]) <= 55:
+        if len(digits) != 16:
+            return False, f"mastercard should be 16 digits, got {len(digits)}"
+        return True, None
+
+    # amex starts with 34 or 37, only one thats 15 digits
+    if digits[:2] in ("34", "37"):
+        if len(digits) != 15:
+            return False, f"amex should be 15 digits, got {len(digits)}"
+        return True, None
+
+    return False, "doesnt look like visa, mastercard or amex"
+
+def email_check(email):
+    if email.count("@") > 1:
+        return "more than one @ symbol"
+    if "." not in email.split("@")[-1]:
+        return "no dot in domain"
+    if email.split("@")[0] == "":
+        return "nothing before @"
+    return "invalid format"
+    
 
 def classify_email(email):
     if re.search(alu_si, email, re.IGNORECASE):
@@ -73,21 +103,28 @@ def get_emails(text):
     }
 
     for email in found:
-        # Security checks due to possibility of dangerous strings
+        # danger check runs first
         if dangerous(email):
             results["invalid"].append({
                 "value": "[removed]",
                 "reason": "looks suspicious, injection attack possible"
             })
             continue
-        #Clasifying emails accordingly
         category = classify_email(email)
         results[category].append(email)
 
-    return results
+    # catching bad emails that failed patern
+    malformed = re.findall(r"[\w._%+-]*@{2,}[\w._%+-]+|[\w._%+-]+@[\w._%+-]*@[\w._%+-]+", text)
+    for bad in malformed:
+        bad = bad.strip()
+        results["invalid"].append({
+            "value": bad,
+            "reason": email_check(bad)
+        })
 
+    return results
 def check_cards(text):
-    found = re.findall(card_pattern, text)
+    found = re.findall(r"\b(?:\d[ -]?){13,16}\b", text)
     results = {"accepted": [], "invalid": []}
 
     for card in found:

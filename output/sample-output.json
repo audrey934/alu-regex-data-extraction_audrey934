@@ -45,6 +45,14 @@
       {
         "value": "[removed]",
         "reason": "looks suspicious, injection attack possible"
+      },
+      {
+        "value": "k.osei@@alumni.alueducation.com",
+        "reason": "more than one @ symbol"
+      },
+      {
+        "value": "j.roe@@bademail",
+        "reason": "more than one @ symbol"
       }
     ]
   },
@@ -52,8 +60,8 @@
     "accepted": [
       "**** **** **** 6467",
       "**** **** **** 9903",
+      "**** **** **** 0005",
       "**** **** **** 3456",
-      "**** **** **** 2345",
       "**** **** **** 9903",
       "**** **** **** 0208",
       "**** **** **** 0208",
@@ -61,6 +69,7 @@
       "**** **** **** 1111",
       "**** **** **** 0004",
       "**** **** **** 0208",
+      "**** **** **** 8431",
       "**** **** **** 6467",
       "**** **** **** 3456"
     ],
@@ -78,8 +87,28 @@
         "reason": "all digits are '9' - fake card"
       },
       {
+        "card": "**** **** **** 2345",
+        "reason": "doesnt look like visa, mastercard or amex"
+      },
+      {
+        "card": "**** **** **** 7756",
+        "reason": "doesnt look like visa, mastercard or amex"
+      },
+      {
+        "card": "**** **** **** 3100",
+        "reason": "amex should be 15 digits, got 13"
+      },
+      {
+        "card": "**** **** **** 4678",
+        "reason": "doesnt look like visa, mastercard or amex"
+      },
+      {
         "card": "**** **** **** 0000",
         "reason": "all digits are '0' - fake card"
+      },
+      {
+        "card": "**** **** **** 1122",
+        "reason": "doesnt look like visa, mastercard or amex"
       }
     ]
   },
